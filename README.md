@@ -42,6 +42,23 @@ Deploying DC/OS Vagrant involves creating a local cluster of VirtualBox VMs usin
     ```
 
     When prompted for a password, provide your local machine user password (modifies `/etc/hosts`).
+    Adicionar en /etc/hosts de cada vm la resolución para que funcione la descarga del archivo  http://boot.dcos/dcos_install.sh
+    
+    En cada vm:
+    
+    echo "192.168.65.50 boot.dcos boot" >> /etc/hosts
+    echo "192.168.65.60 p1.dcos p1" >> /etc/hosts
+    echo "192.168.65.90 m1.dcos m1" >> /etc/hosts
+    echo "192.168.65.111 a1.dcos a1" >> /etc/hosts
+    
+    * en los archivos provision/bin/type-agent-private.sh y provision/bin/type-agent-public.sh se coloca la ruta completa de dcos-postflight (/usr/sbin/dcos-postflight)
+    * se agrega un sleep de varios segundos para tener tiempo de actualizar el archivo hosts de cada mv, incluido el pc local, en los archivos:
+    lib/vagrant-dcos/provisioner.rb
+    provision/bin/type-agent-private.sh
+    provision/bin/install-postflight.sh
+    provision/bin/type-boot.sh
+    provision/bin/type-agent-public.sh
+    
 
 1. Access the GUI <http://m1.dcos/>
 
